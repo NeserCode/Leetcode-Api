@@ -1,11 +1,13 @@
 # Leetcode-Api
 
-<img alt="GitHub Repo stars" src="https://img.shields.io/github/stars/NeserCode/Leetcode-Api"><img title="GitHub download" src="https://img.shields.io/github/downloads/NeserCode/Leetcode-Api/total"/>  
+<img alt="GitHub Repo stars" src="https://img.shields.io/github/stars/NeserCode/Leetcode-Api">      <img title="GitHub download" src="https://img.shields.io/github/downloads/NeserCode/Leetcode-Api/total"/>  
 
 
 
 关于 力扣 的网络请求接口。
 HttpRequest api for leetcode(zh-cn).
+
+[TOC]
 
 ## 免责声明
 
@@ -32,4 +34,6 @@ const variable = new $Leetcode()
 然后通过上例中的 variable 使用 Leetcode-Api 中的函数方法。
 Then use the function in Leetcode-API through the variable in the above example.
 
-## 
+## 接口详情
+
+力扣 官网使用了 **GraphQL** 技术来获取数据
