@@ -7,7 +7,10 @@
 关于 力扣 的网络请求接口。
 HttpRequest api for leetcode(zh-cn).
 
-[TOC]
+- [Leetcode-Api](#Leetcode-Api)
+  * [免责声明](#免责声明)
+  * [项目总览](#项目总览)
+  * [接口详情](#接口详情)
 
 ## 免责声明
 
