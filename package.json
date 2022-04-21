@@ -1,7 +1,13 @@
 {
-  "name": "temp",
-  "version": "0.1.0",
-  "private": "false",
+  "name": "@nesercode/leetcode-api",
+  "version": "0.0.4",
+  "description": "Leetcode-Api",
+  "author": "NeserCode",
+  "private": false,
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  },
   "dependencies": {
     "axios": "^0.26.1"
   }
