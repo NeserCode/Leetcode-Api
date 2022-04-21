@@ -9,9 +9,9 @@ HttpRequest api for leetcode(zh-cn).
 ## Directory
 
 * [Disclaimer](#Disclaimer)
-* [Project Overview](#Project Overview)
-* [About Interface](#About Interface)
-* [Interface Detail](#Interface Detail)
+* [Project Overview](#Project-Overview)
+* [About Interface](#About-Interface)
+* [Interface Detail](#Interface-Detail)
 
 ## Disclaimer
 
@@ -120,22 +120,22 @@ Requested data item:
 
 Obtained data items:
 
-|             Key             |  Value  | Describe                                  |
-| :-------------------------: | :-----: | :---------------------------------------- |
-|  commonNojPermissionTypes   |  Array  | 未知 Unknow                               |
-|        jobsMyCompany        | Object  | 用户公司 User company                     |
-|         userStatus          | Object  | 用户状态 User status obj                  |
-|      userStatus.avatar      | String  | 用户头像 User avatar                      |
-|     userStatus.isAdmin      | Boolean | 是否是管理员 User admin status            |
-| userStatus.isPhoneVerified  | Boolean | 是否通过手机验证 User phone verify status |
-|    userStatus.isPremium     | Boolean | 未知 Unknow                               |
-|    userStatus.isSignedIn    | Boolean | 是否登录 User sign status                 |
-|   userStatus.isSuperuser    | Boolean | 是否是VIP User vip role status            |
-|   userStatus.isTranslator   | Boolean | 是否是翻译 User translator role status    |
-|    userStatus.isVerified    | Boolean | 是否通过身份验证 User verify status       |
-| userStatus.premiumExpiredAt | Number  | 未知 Unknow                               |
-|     userStatus.realName     | String  | 用户昵称 User detail name                 |
-|  userStatus.useTranslation  | Boolean | 是否使用翻译 User translation status      |
-|     userStatus.userSlug     | String  | 用户标签 User using slug                  |
-|     userStatus.username     | String  | 用户名 User name                          |
+|             Key             |  Value  | Describe                    |
+| :-------------------------: | :-----: | :-------------------------- |
+|  commonNojPermissionTypes   |  Array  | Unknow                      |
+|        jobsMyCompany        | Object  | User company                |
+|         userStatus          | Object  | User status obj             |
+|      userStatus.avatar      | String  | User avatar                 |
+|     userStatus.isAdmin      | Boolean | User admin status           |
+| userStatus.isPhoneVerified  | Boolean | User phone verify status    |
+|    userStatus.isPremium     | Boolean | Unknow                      |
+|    userStatus.isSignedIn    | Boolean | User sign status            |
+|   userStatus.isSuperuser    | Boolean | User vip role status        |
+|   userStatus.isTranslator   | Boolean | User translator role status |
+|    userStatus.isVerified    | Boolean | User verify status          |
+| userStatus.premiumExpiredAt | Number  | Unknow                      |
+|     userStatus.realName     | String  | User detail name            |
+|  userStatus.useTranslation  | Boolean | User translation status     |
+|     userStatus.userSlug     | String  | User using slug             |
+|     userStatus.username     | String  | User name                   |
 
