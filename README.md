@@ -77,6 +77,32 @@ const {session} = remote
         details.requestHeaders['Referer'] = `https://leetcode-cn.com/problems/${questionSlug}/submissions/`
         callback({ cancel: false, requestHeaders: details.requestHeaders })
     })
+    //...
+}
+```
+
+在给出的实例化的对象中，所有的函数方法都会返回 [**axios**](https://www.axios-http.cn/) 对象。所以，你可以从函数的 **then** 回调中获取数据，例如：
+In the given instantiated object, all function methods return [**axios**](https://www.axios-http.cn/) objects. So, you can get data from the function's **then** callback, for example:
+
+```javascript
+import { remote } from "electron"
+const { session } = remote,
+      $leetcode = new $Leetcode()，
+      leetcodeUserStatus = null
+
+;function someFn(questionSlug){
+    session.defaultSession.webRequest.onBeforeSendHeaders({ urls: ['https://leetcode-cn.com/problems/*'] }, (details, callback) => {
+        details.requestHeaders['Referer'] = `https://leetcode-cn.com/problems/${questionSlug}/submissions/`
+        callback({ cancel: false, requestHeaders: details.requestHeaders })
+    })
+    $leetcode.getUserStatus().then((response)=>{
+        if(response.status == 200){
+            const { userStatus } = response.data.data
+            // leetcodeUserStatus = userStatus
+        }
+        else
+            console.log(response)
+    })
 }
 ```
 
@@ -94,7 +120,7 @@ The Cookie items mentioned in the table below refer to the **LEETCODE_SESSION** 
 ### 用户状态
 
 ```javascript
-$Leetcode.getUserStatus()	// with cookie
+$Leetcode.getUserStatus()	// with cookie [LEETCODE_SESSION,x-csrftoken]
 ```
 
 请求数据项：
