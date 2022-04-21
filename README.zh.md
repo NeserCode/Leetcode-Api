@@ -102,7 +102,7 @@ const { session } = remote
 
 > 接口中标注 `必须使用Cookie` 时，即必须携带上述两项 Cookie 进行网络请求才能获取到数据；接口中标注 `可以不使用Cookie` 时，即携带上述两项 Cookie 进行网络请求才能获取到完整数据(表项中带有 * 的需要携带 Cookie 才能正常获取)；无标注即为普通的网络请求，不需要携带 Cookie 也能正常获取到完整数据。
 
-### 用户状态[^必须使用Cookie]
+### 用户状态 <sup>必须使用Cookie</sup>
 
 ```javascript
 const $leetcode = new $Leetcode()
@@ -146,7 +146,7 @@ const $leetcode = new $Leetcode()
 | userStatus.userSlug         | String  | 用户标签         |
 | userStatus.username         | String  | 用户名           |
 
-### 题目集合[^可以不使用Cookie]
+### 题目集合 <sup>可以不使用Cookie</sup>
 
 ```javascript
 const $leetcode = new $Leetcode()
@@ -209,7 +209,7 @@ const $leetcode = new $Leetcode()
 | problemsetQuestionList.questions.topicTags.slug              | String  | 话题标题                             |
 | problemsetQuestionList.total                                 | Number  | 题目总数                             |
 
-### 题目详情[^可以不使用Cookie]
+### 题目详情 <sup>可以不使用Cookie</sup>
 
 ```javascript
 const $leetcode = new $Leetcode()
