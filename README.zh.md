@@ -74,9 +74,8 @@ const {session} = remote
 
 ```javascript
 import { remote } from "electron"
-const { session } = remote,
-      $leetcode = new $Leetcode()，
-      leetcodeUserStatus = null
+const { session } = remote
+      ,$leetcode = new $Leetcode()
 
 ;function someFn(questionSlug){
     session.defaultSession.webRequest.onBeforeSendHeaders({ urls: ['https://leetcode-cn.com/problems/*'] }, (details, callback) => {
@@ -84,12 +83,11 @@ const { session } = remote,
         callback({ cancel: false, requestHeaders: details.requestHeaders })
     })
     $leetcode.getUserStatus().then((response)=>{
-        if(response.status == 200){
+        if(response.status == 200)
             const { userStatus } = response.data.data
-            // leetcodeUserStatus = userStatus
-        }
         else
             console.log(response)
+        //...
     })
 }
 ```
@@ -102,40 +100,189 @@ const { session } = remote,
 
 下文表格中提到的 Cookie 项，是指用户在登录力扣官方网站生成的 **LEETCODE_SESSION** 与 **x-csrftoken** 项，获取方法：使用浏览器登录成功后，打开开发人员工具中的网络一项，寻找成功状态的 graphql 请求，在请求信息中可以找到这两项的值。
 
-### 用户状态
+> 接口中标注 `必须使用Cookie` 时，即必须携带上述两项 Cookie 进行网络请求才能获取到数据；接口中标注 `可以不使用Cookie` 时，即携带上述两项 Cookie 进行网络请求才能获取到完整数据(表项中带有 * 的需要携带 Cookie 才能正常获取)；无标注即为普通的网络请求，不需要携带 Cookie 也能正常获取到完整数据。
+
+### 用户状态[^必须使用Cookie]
 
 ```javascript
 const $leetcode = new $Leetcode()
-;$leetcode.getUserStatus()	// with cookie [LEETCODE_SESSION,x-csrftoken]
+
+;$leetcode.getUserStatus().then((response)=>{
+    if(response.status == 200)
+        const { commonNojPermissionTypes, jobsMyCompany, userStatus } = response.data.data
+    else
+        console.log(response)
+    //...
+})	// must with cookie [LEETCODE_SESSION,x-csrftoken]
 ```
 
 请求数据项：
 
-|    Item    |                    Value                    |
-| :--------: | :-----------------------------------------: |
-|    Type    |                    POST                     |
-| Parameters |                    NULL                     |
-|    URL     |      `https://leetcode-cn.com/graphql`      |
-|  Require   | Cookie Item [LEETCODE_SESSION, x-csrftoken] |
+|    Item    | Value                                         |
+| :--------: | :-------------------------------------------- |
+|    Type    | `POST`                                        |
+| Parameters | `NULL`                                        |
+|    URL     | `https://leetcode-cn.com/graphql`             |
+|  Require   | `Cookie Item [LEETCODE_SESSION, x-csrftoken]` |
 
 获取到的数据项：
 
-|             Key             |  Value  | Describe         |
-| :-------------------------: | :-----: | :--------------- |
-|  commonNojPermissionTypes   |  Array  | 未知             |
-|        jobsMyCompany        | Object  | 用户公司         |
-|         userStatus          | Object  | 用户状态         |
-|      userStatus.avatar      | String  | 用户头像         |
-|     userStatus.isAdmin      | Boolean | 是否是管理员     |
+| Key                         |  Value  | Describe         |
+| :-------------------------- | :-----: | :--------------- |
+| commonNojPermissionTypes    |  Array  | 未知             |
+| jobsMyCompany               | Object  | 用户公司         |
+| userStatus                  | Object  | 用户状态         |
+| userStatus.avatar           | String  | 用户头像         |
+| userStatus.isAdmin          | Boolean | 是否是管理员     |
 | userStatus.isPhoneVerified  | Boolean | 是否通过手机验证 |
-|    userStatus.isPremium     | Boolean | 未知             |
-|    userStatus.isSignedIn    | Boolean | 是否登录         |
-|   userStatus.isSuperuser    | Boolean | 是否是VIP        |
-|   userStatus.isTranslator   | Boolean | 是否是翻译       |
-|    userStatus.isVerified    | Boolean | 是否通过身份验证 |
+| userStatus.isPremium        | Boolean | 未知             |
+| userStatus.isSignedIn       | Boolean | 是否登录         |
+| userStatus.isSuperuser      | Boolean | 是否是VIP        |
+| userStatus.isTranslator     | Boolean | 是否是翻译       |
+| userStatus.isVerified       | Boolean | 是否通过身份验证 |
 | userStatus.premiumExpiredAt | Number  | 未知             |
-|     userStatus.realName     | String  | 用户昵称         |
-|  userStatus.useTranslation  | Boolean | 是否使用翻译     |
-|     userStatus.userSlug     | String  | 用户标签         |
-|     userStatus.username     | String  | 用户名           |
+| userStatus.realName         | String  | 用户昵称         |
+| userStatus.useTranslation   | Boolean | 是否使用翻译     |
+| userStatus.userSlug         | String  | 用户标签         |
+| userStatus.username         | String  | 用户名           |
 
+### 题目集合[^可以不使用Cookie]
+
+```javascript
+const $leetcode = new $Leetcode()
+	,categorySlug = ""		//defalut
+	,skip = 0 				//defalut
+	,limit = 25 			//defalut
+
+;$leetcode.getQuestionSet(categorySlug, skip, limit).then((response)=>{
+    if(response.status == 200)
+    	const { problemsetQuestionList } = response.data.data
+    else
+        console.log(response)
+    //...
+})	// with cookie [LEETCODE_SESSION,x-csrftoken] or not
+```
+
+请求数据项：
+
+|    Item    | Value                                                  |
+| :--------: | :----------------------------------------------------- |
+|    Type    | `POST`                                                 |
+| Parameters | `categorySlug`, `skip`, `limit`                        |
+|    URL     | `https://leetcode-cn.com/graphql`                      |
+|  Require   | `NULL` / `Cookie Item [LEETCODE_SESSION, x-csrftoken]` |
+
+参数项：
+
+- `categorySlug`，分类名，获取的题目集合将只含有此分类，默认分类为空字符串。
+- `skip`，跳过数，分页相关，获取数量从头部减去 skip 条，默认为 0 条。
+- `limit`，数据数量，分页相关，获取数据的数量，默认为 25 条。
+
+获取到的数据项：
+
+| Key                                                          |  Value  | Describe                             |
+| :----------------------------------------------------------- | :-----: | :----------------------------------- |
+| problemsetQuestionList                                       |  Array  | 题目集合对象                         |
+| problemsetQuestionList.hasMore                               | Boolean | 是否有更多题目                       |
+| problemsetQuestionList.questions                             |  Array  | 题目集合                             |
+| problemsetQuestionList.questions.acRate                      | Number  | 题目通过率                           |
+| problemsetQuestionList.questions.difficulty                  | String  | 题目难度                             |
+| problemsetQuestionList.questions.extra                       | Object  | 题目额外信息                         |
+| problemsetQuestionList.questions.extra.companyTagNum         | Number  | 公司数量                             |
+| problemsetQuestionList.questions.extra.hasVideoSolution      | Boolean | 该题是否有解法视频                   |
+| problemsetQuestionList.questions.extra.topCompanyTags        |  Array  | 相关公司集合                         |
+| problemsetQuestionList.questions.extra.topCompanyTags.imgUrl | String  | 相关公司头像                         |
+| problemsetQuestionList.questions.extra.topCompanyTags.slug   | String  | 相关公司标题                         |
+| problemsetQuestionList.questions.freqBar                     | Boolean | 未知                                 |
+| problemsetQuestionList.questions.frontendQuestionId          | String  | 题目的前端ID                         |
+| *problemsetQuestionList.questions.isFavor                    | Boolean | 题目是否被收藏，需要用户登录         |
+| problemsetQuestionList.questions.paidOnly                    | Boolean | 题目是否付费                         |
+| problemsetQuestionList.questions.solutionNum                 | Number  | 题目已知解法数量                     |
+| *problemsetQuestionList.questions.status                     | String  | 题目通过状态，需要用户登录，默认NULL |
+| problemsetQuestionList.questions.title                       | String  | 题目的题名                           |
+| problemsetQuestionList.questions.titleCn                     | String  | 题目的题名(中文)                     |
+| problemsetQuestionList.questions.titleSlug                   | String  | 题目的标题                           |
+| problemsetQuestionList.questions.topicTags                   |  Array  | 题目相关话题集合                     |
+| problemsetQuestionList.questions.topicTags.id                | String  | 话题ID                               |
+| problemsetQuestionList.questions.topicTags.name              | String  | 话题名称                             |
+| problemsetQuestionList.questions.topicTags.nameTranslated    | String  | 话题名称(中文)                       |
+| problemsetQuestionList.questions.topicTags.slug              | String  | 话题标题                             |
+| problemsetQuestionList.total                                 | Number  | 题目总数                             |
+
+### 题目详情[^可以不使用Cookie]
+
+```javascript
+const $leetcode = new $Leetcode()
+	,questionSlug = "two-sum"
+
+;$leetcode.getQuestion(questionSlug).then((res)=>{
+    if(res.status == 200)
+        const { question } = res.data.data
+})	// with cookie [LEETCODE_SESSION,x-csrftoken] or not
+```
+
+请求数据项：
+
+|    Item    | Value                                                  |
+| :--------: | :----------------------------------------------------- |
+|    Type    | `POST`                                                 |
+| Parameters | `questionSlug`                                         |
+|    URL     | `https://leetcode-cn.com/graphql`                      |
+|  Require   | `NULL` / `Cookie Item [LEETCODE_SESSION, x-csrftoken]` |
+
+参数项：
+
+- `questionSlug`，题目标题，必须是 `question.titleSlug` 的可选值。
+
+获取到的数据项：
+
+| Key                               |     Value      | Describe                          |
+| :-------------------------------- | :------------: | :-------------------------------- |
+| question                          |     Object     | 题目对象                          |
+| question.book                     |    Object?     | 题目书籍                          |
+| question.boundTopicId             |     Object     | 题目相关话题数量                  |
+| question.categoryTitle            |     String     | 题目分类名                        |
+| question.codeSnippets             |     String     | 题目代码对象                      |
+| question.codeSnippets.code        |     String     | 题目代码内容(初始值)              |
+| question.codeSnippets.lang        |     String     | 题目代码语言                      |
+| question.codeSnippets.langSlug    |     String     | 题目代码语言标题                  |
+| question.companyTagStats          |    String?     | 未知，题目相关公司?               |
+| question.content                  |     String     | 题目内容                          |
+| question.contributors             | Array[Object?] | 未知，题目贡献者?                 |
+| question.dailyRecordStatus        |     String     | 题目每日状态记录                  |
+| question.difficulty               |     String     | 题目难度                          |
+| question.dislikes                 |     Number     | 题目踩数量                        |
+| question.editorType               |     String     | 未知，题目编辑器风格?             |
+| question.enableRunCode            |    Boolean     | 是否可以运行代码                  |
+| question.envInfo                  |     String     | 题目警告信息                      |
+| question.exampleTestcases         |     String     | 题目样例                          |
+| question.hints                    | Array[String]  | 题目提示                          |
+| question.isDailyQuestion          |    Boolean     | 是否是每日一题                    |
+| *question.isLiked                 |    String?     | 题目是否点赞                      |
+| question.isPaidOnly               |    Boolean     | 题目是否付费                      |
+| *question.isSubscribed            |    Boolean     | 是否订阅题目                      |
+| question.judgeType                |     String     | 未知，题目判定类型?               |
+| question.judgerAvailable          |    Boolean     | 未知，判定是否可用?               |
+| question.langToValidPlayground    |     String     | 题目可用的语言                    |
+| question.likes                    |     Number     | 题目赞数量                        |
+| question.metaData                 |     String     | 题目预设信息                      |
+| question.mysqlSchemas             | Array[Object?] | 未知，题目数据库信息?             |
+| question.questionFrontendId       |     String     | 题目前端ID                        |
+| question.questionId               |     String     | 题目ID                            |
+| question.sampleTestCase           |     String     | 题目一般测试用例                  |
+| question.similarQuestions         |     String     | 相似题目对象(JSON.stringfy)       |
+| question.solution                 |     Object     | 题目解法对象                      |
+| question.solution.canSeeDetail    |    Boolean     | 未知，题目解法细节是否可见?       |
+| question.solution.id              |     String     | 题目解法ID                        |
+| question.stats                    |     String     | 题目通过状态(总体)(JSON.stringfy) |
+| *question.status                  |     String     | 题目通过状态，需要用户登录        |
+| question.style                    |     String     | 未知，题目风格？                  |
+| question.title                    |     String     | 题目题名                          |
+| question.titleSlug                |     String     | 题目标题                          |
+| question.topicTags                |     Array      | 题目话题标签                      |
+| question.topicTags.name           |     String     | 题目话题标签名                    |
+| question.topicTags.slug           |     String     | 题目话题标签标题                  |
+| question.topicTags.translatedName |     String     | 题目话题标签名(中文)              |
+| question.translatedContent        |     String     | 题目内容(中文)                    |
+| question.translatedTitle          |     String     | 题目题名(中文)                    |
+| question.ugcQuestionId            |     String     | 未知，题目UGCID?                  |
