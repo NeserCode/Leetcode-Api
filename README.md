@@ -1,6 +1,6 @@
 # Leetcode-Api
 
-<img alt="GitHub Repo stars" src="https://img.shields.io/github/stars/NeserCode/Leetcode-Api">     <img title="GitHub download" src="https://img.shields.io/github/downloads/NeserCode/Leetcode-Api/total"/>  
+<img alt="GitHub Repo stars" src="https://img.shields.io/github/stars/NeserCode/Leetcode-Api">    <img title="GitHub download" src="https://img.shields.io/github/downloads/NeserCode/Leetcode-Api/total"/>  
 
 
 
@@ -11,6 +11,7 @@ HttpRequest api for leetcode(zh-cn).
 
 * [免责声明](#免责声明)
 * [项目总览](#项目总览)
+* [接口相关](#接口相关)
 * [接口详情](#接口详情)
 
 ## 免责声明
@@ -38,7 +39,7 @@ const variable = new $Leetcode()
 然后通过上例中的 variable 使用 Leetcode-Api 中的函数方法。
 Then use the function in Leetcode-API through the variable in the above example.
 
-## 接口详情
+## 接口相关
 
 力扣 官网使用了 [**GraphQL**](https://graphql.org/) 技术来获取数据，即 **按需分配数据** 的模式。同时，全部网络请求需要附着 Cookie 访问，部分网络请求需要确认 **Referer** 是否属于力扣域名之下。请使用这些 WebApi 之前制定好相关解决方案。
 Leetcode uses [**GraphQL**](https://graphql.org/) technology to obtain data, that is, the mode of **on-demand data distribution**. At the same time, all network requests need to be attached with Cookie access, and some network requests need to confirm whether the **Referer** belongs to Leetcode domain name. Develop a solution before using these WebApis.
@@ -60,4 +61,53 @@ In traditional HTML5 projects, such as:
 
 这种项目中，由于伪造 Referer 带来的不安全和危险，一般不会允许用户通过 Javascript 脚本去修改 HttpRequest 的表头中的几项，也就是 RequestHeader 中的几项，其中就包含有 Referer 项。
 In such projects, due to the safety and risk of forgery of the Referer, it is generally not allowed to modify the items in the HttpRequest header, i.e. the items in the RequestHeader, which contain the Referer item.
+
+而在 Vue 的脚手架中可以使用 Webpack 相关的 **DevProxy** 项设置相关的请求表头，从而起到伪造 Referer 以获取数据的效果。
+In Vue-Cil project, the Webpack **DevProxy** item can be used to set up the relevant request headers, thus creating the effect of faking the Referer for data.
+
+这样的例子在互联网上有许多，本人不在这里一一赘述，正好最近在写一个新的 [**Electron**](https://www.electronjs.org/) 项目，用到了伪造 Referer 的功能，在这里可以举例一番。
+There are many such examples on the Internet, and I won't repeat them all here. Recently, I was writing a new [**Electron**](https://www.electronjs.org/) project, which used the function of forging Referer. Here I can give some examples.
+
+```javascript
+import { remote } from "electron"
+const {session} = remote
+
+;function someFn(questionSlug){
+    session.defaultSession.webRequest.onBeforeSendHeaders({ urls: ['https://leetcode-cn.com/problems/*'] }, (details, callback) => {
+        details.requestHeaders['Referer'] = `https://leetcode-cn.com/problems/${questionSlug}/submissions/`
+        callback({ cancel: false, requestHeaders: details.requestHeaders })
+    })
+}
+```
+
+相关的文档请移步相关技术或者自行查询。
+For related documents, refer to related technologies or query them by yourself.
+
+## 接口详情
+
+所有接口在文档更新时均已通过测试。
+All interfaces were tested when the document was updated.
+
+下文表格中提到的 Cookie 项，是指用户在登录力扣官方网站生成的 **LEETCODE_SESSION** 与 **x-csrftoken** 项，获取方法：使用浏览器登录成功后，打开开发人员工具中的网络一项，寻找成功状态的 graphql 请求，在请求信息中可以找到这两项的值。
+The Cookie items mentioned in the table below refer to the **LEETCODE_SESSION** and **x-csrftoken** items generated when users log in to the official website of Leetcode. The method of obtaining them is as follows: After logging in successfully using the browser, open the network item in the developer tool and look for the graphQL request in the successful state. The values of the two items can be found in the request information.
+
+### 用户状态
+
+```javascript
+$Leetcode.getUserStatus()
+```
+
+|    ITEM    |               VALUE               |
+| :--------: | :-------------------------------: |
+|    Type    |               POST                |
+| Parameters |               NULL                |
+|    URL     | `https://leetcode-cn.com/graphql` |
+
+获取到的数据项：
+
+|      |      |
+| ---- | ---- |
+|      |      |
+|      |      |
+|      |      |
 
