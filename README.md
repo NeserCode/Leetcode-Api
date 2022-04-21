@@ -97,17 +97,35 @@ The Cookie items mentioned in the table below refer to the **LEETCODE_SESSION** 
 $Leetcode.getUserStatus()
 ```
 
-|    ITEM    |               VALUE               |
-| :--------: | :-------------------------------: |
-|    Type    |               POST                |
-| Parameters |               NULL                |
-|    URL     | `https://leetcode-cn.com/graphql` |
+请求数据项：
+Requested data item:
+
+|    Item    |                    Value                    |
+| :--------: | :-----------------------------------------: |
+|    Type    |                    POST                     |
+| Parameters |                    NULL                     |
+|    URL     |      `https://leetcode-cn.com/graphql`      |
+|  Require   | Cookie Item [LEETCODE_SESSION, x-csrftoken] |
 
 获取到的数据项：
+Obtained data items:
 
-|      |      |
-| ---- | ---- |
-|      |      |
-|      |      |
-|      |      |
+|             Key             |  Value  |          Describe           |
+| :-------------------------: | :-----: | :-------------------------: |
+|  commonNojPermissionTypes   |  Array  |           Unknow            |
+|        jobsMyCompany        | Object  |        User company         |
+|         userStatus          | Object  |       User status obj       |
+|      userStatus.avatar      | String  |         User avatar         |
+|     userStatus.isAdmin      | Boolean |      User admin status      |
+| userStatus.isPhoneVerified  | Boolean |  User phone verify status   |
+|    userStatus.isPremium     | Boolean |     User premium status     |
+|    userStatus.isSignedIn    | Boolean |      User sign status       |
+|   userStatus.isSuperuser    | Boolean |    User vip role status     |
+|   userStatus.isTranslator   | Boolean | User translator role status |
+|    userStatus.isVerified    | Boolean |     User verify status      |
+| userStatus.premiumExpiredAt | Number  |   User premium expiration   |
+|     userStatus.realName     | String  |      User detail name       |
+|  userStatus.useTranslation  | Boolean |   User translation status   |
+|     userStatus.userSlug     | String  |       User using slug       |
+|     userStatus.username     | String  |          User name          |
 
