@@ -9,6 +9,7 @@ HttpRequest api for leetcode(zh-cn).
 ## Directory
 
 * [Disclaimer](#Disclaimer)
+* [Usage](#Usage)
 * [Project Overview](#Project-Overview)
 * [About Interface](#About-Interface)
 * [Interface Detail](#Interface-Detail)
@@ -16,6 +17,10 @@ HttpRequest api for leetcode(zh-cn).
 ## Disclaimer
 
 **This project is for study and exchange only, and under no circumstances shall it be used for any commercial purposes. If you violate the statement, you are responsible for the consequences, and I do not assume any responsibility.**
+
+## Usage
+
+Click the package tab on the right, or you can click [here](https://github.com/NeserCode/Leetcode-Api/packages/1376786).
 
 ## Project Overview
 
