@@ -102,18 +102,20 @@ For related documents, refer to related technologies or query them by yourself.
 
 All interfaces were tested when the document was updated.
 
-- [User Status <sup>with-Cookie</sup>](#User-Status-<sup>with-Cookie</sup>)
-- [Question Set <sup>can-without-Cookie</sup>](#Question-Set-<sup>can-without-Cookie</sup>)
-- [Question Detail <sup>can-without-Cookie</sup>](#Question-Detail-<sup>can-without-Cookie</sup>)
-- [Question Status <sup>with-Cookie</sup>](#Question-Status-<sup>with-Cookie</sup>)
-- [Submission ID <sup>with-Cookie-and-fake-referer</sup>](#Submission-ID-<sup>with-Cookie-and-fake-referer</sup>)
+- [User Status](#User-Status)
+- [Question Set](#Question-Set)
+- [Question Detail](#Question-Detail)
+- [Question Status](#Question-Status)
+- [Submission ID](#Submission-ID)
 - [Submission Detail](#Submission-Detail)
 
 Cookie items mentioned in the table below refer to **LEETCODE_SESSION** and **x-csrftoken** items generated when users log in to the official website of Licou. The method of obtaining them is as follows: After logging in successfully using the browser, open the network item in the developer tool and look for the graphQL request in the successful state. The values of the two items can be found in the request information.
 
-> If **with-Cookie** is marked on the interface, the data can be obtained only when the above two cookies are carried for network request. If **can-without-Cookie** is marked on the interface, complete data can be obtained only by carrying the above two cookies for network request (cookies with * in entries can be normally obtained only by carrying cookies). No annotation is an ordinary network request, and complete data can be normally obtained without carrying cookies.
+> If **With-Cookie** is marked on the interface, the data can be obtained only when the above two cookies are carried for network request. If **Can-Without-Cookie** is marked on the interface, complete data can be obtained only by carrying the above two cookies for network request (cookies with * in entries can be normally obtained only by carrying cookies). No annotation is an ordinary network request, and complete data can be normally obtained without carrying cookies.
 
-### User Status <sup>with-Cookie</sup>
+### User Status
+
+Type[**With-Cookie**]
 
 ```javascript
 const $leetcode = new $Leetcode()
@@ -157,7 +159,9 @@ Return Data:
 | userStatus.userSlug         |     String     | User Slug            |
 | userStatus.username         |     String     | User name            |
 
-### Question Set <sup>can-without-Cookie</sup>
+### Question Set
+
+Type[**Can-Without-Cookie**]
 
 ```javascript
 const $leetcode = new $Leetcode()
@@ -220,7 +224,9 @@ Return Data:
 | problemsetQuestionList.questions.topicTags.slug              |    String     | Topic slug                                             |
 | problemsetQuestionList.total                                 |    Number     | Question total number                                  |
 
-### Question Detail <sup>can-without-Cookie</sup>
+### Question Detail
+
+Type[**Can-Without-Cookie**]
 
 ```javascript
 const $leetcode = new $Leetcode()
@@ -298,7 +304,9 @@ Return Data:
 | question.translatedTitle          |     String     | Question title(Chinese)             |
 | question.ugcQuestionId            |     String     | Question UGCID?                     |
 
-### Question Status <sup>with-Cookie</sup>
+### Question Status
+
+Type[**With-Cookie**]
 
 ```javascript
 const $leetcode = new $Leetcode()
@@ -326,7 +334,9 @@ Return Data:
 | allQuestionsBeta.questionId |    String     | Question ID            |
 | allQuestionsBeta.status     |    String     | Question Status        |
 
-### Submission ID <sup>with-Cookie-and-fake-referer</sup>
+### Submission ID
+
+Type[**With-Cookie-and-Fake-Referer**]
 
 ```javascript
 const $leetcode = new $Leetcode()
@@ -345,7 +355,7 @@ const $leetcode = new $Leetcode()
 })	// must with cookie [LEETCODE_SESSION,x-csrftoken] and referer [https://leetcode-cn.com/problems/${questionSlug}/submissions/]
 ```
 
-> Note that in this Api, Cookies must be carried at `https://leetcode-cn.com/problems/${questionSlug}/submit`, i.e. the URL visited, otherwise the **CSRF** validation of Leetcode will fail. At the same time, the Api also needs to forge the Referer as `https://leetcode-cn.com/problems/${questionSlug}/submissions/`, where the variable questionSlug in the string template is the title, It must be an optional value of `question.TitleSlug` in [Question Details API](#Question-Detail-<sup>can-without-Cookie</sup>)
+> Note that in this Api, Cookies must be carried at `https://leetcode-cn.com/problems/${questionSlug}/submit`, i.e. the URL visited, otherwise the **CSRF** validation of Leetcode will fail. At the same time, the Api also needs to forge the Referer as `https://leetcode-cn.com/problems/${questionSlug}/submissions/`, where the variable questionSlug in the string template is the title, It must be an optional value of `question.TitleSlug` in [Question Details API](#Question-Detail)
 
 Request data:
 
@@ -358,10 +368,10 @@ Request data:
 
 Parameters:
 
-- `question_id`，Question ID, which must be an optional value of `question.QuestionId` in [Question Details API](#Question Detail <sup>can-without-Cookie</sup>).
-- `lang`, Question language, which must be an optional value of `question.codeSnippets.langSlug`in [Question Details API](#Question Detail <sup>can-without-Cookie</sup>)
+- `question_id`，Question ID, which must be an optional value of `question.QuestionId` in [Question Details API](#Question Detail).
+- `lang`, Question language, which must be an optional value of `question.codeSnippets.langSlug`in [Question Details API](#Question Detail)
 - `typed_code`, Running code, test the problem solving code that runs.
-- `questionSlug`, Question slug, which must be an optional value of `question.titleSlug` in [Question Details API](#Question Detail <sup>can-without-Cookie</sup>)
+- `questionSlug`, Question slug, which must be an optional value of `question.titleSlug` in [Question Details API](#Question Detail)
 - <s>`test_mode`</s>, test mode.
 - <s>`test_judger`</s>, test judger.
 
@@ -394,7 +404,7 @@ Request data:
 
 Parameters:
 
-- `submission_id`，Submission ID, which must be an optional value of `submission_id` in [Submission ID API](#Submission-ID-<sup>with-Cookie-and-fake-referer</sup>).
+- `submission_id`，Submission ID, which must be an optional value of `submission_id` in [Submission ID API](#Submission-ID).
 
 Return Data:
 

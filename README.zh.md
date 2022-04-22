@@ -96,18 +96,20 @@ const { session } = remote
 
 所有接口在文档更新时均已通过测试。
 
-- [用户状态 <sup>必须使用Cookie</sup>](#用户状态-<sup>必须使用Cookie</sup>)
-- [题目集合 <sup>可以不使用Cookie</sup>](#题目集合-<sup>可以不使用Cookie</sup>)
-- [题目详情 <sup>可以不使用Cookie</sup>](#题目详情-<sup>可以不使用Cookie</sup>)
-- [题目状态 <sup>必须使用Cookie</sup>](#题目状态-<sup>必须使用Cookie</sup>)
-- [提交ID <sup>必须使用Cookie、伪造referer</sup>](#提交ID-<sup>必须使用Cookie、伪造referer</sup>)
+- [用户状态](#用户状态)
+- [题目集合](#题目集合)
+- [题目详情](#题目详情)
+- [题目状态](#题目状态)
+- [提交ID](#提交ID)
 - [提交详情](#提交详情)
 
 下文表格中提到的 Cookie 项，是指用户在登录力扣官方网站生成的 **LEETCODE_SESSION** 与 **x-csrftoken** 项，获取方法：使用浏览器登录成功后，打开开发人员工具中的网络一项，寻找成功状态的 graphql 请求，在请求信息中可以找到这两项的值。
 
 > 接口中标注 `必须使用Cookie` 时，即必须携带上述两项 Cookie 进行网络请求才能获取到数据；接口中标注 `可以不使用Cookie` 时，即携带上述两项 Cookie 进行网络请求才能获取到完整数据(表项中带有 * 的需要携带 Cookie 才能正常获取)；无标注即为普通的网络请求，不需要携带 Cookie 也能正常获取到完整数据。
 
-### 用户状态 <sup>必须使用Cookie</sup>
+### 用户状态
+
+! **必须使用Cookie**
 
 ```javascript
 const $leetcode = new $Leetcode()
@@ -151,7 +153,9 @@ const $leetcode = new $Leetcode()
 | userStatus.userSlug         |     String     | 用户标签         |
 | userStatus.username         |     String     | 用户名           |
 
-### 题目集合 <sup>可以不使用Cookie</sup>
+### 题目集合
+
+! **可以不使用Cookie**
 
 ```javascript
 const $leetcode = new $Leetcode()
@@ -214,7 +218,9 @@ const $leetcode = new $Leetcode()
 | problemsetQuestionList.questions.topicTags.slug              |    String     | 话题标题                             |
 | problemsetQuestionList.total                                 |    Number     | 题目总数                             |
 
-### 题目详情 <sup>可以不使用Cookie</sup>
+### 题目详情
+
+! **可以不使用Cookie**
 
 ```javascript
 const $leetcode = new $Leetcode()
@@ -292,7 +298,9 @@ const $leetcode = new $Leetcode()
 | question.translatedTitle          |     String     | 题目题名(中文)                    |
 | question.ugcQuestionId            |     String     | 未知，题目UGCID?                  |
 
-### 题目状态 <sup>必须使用Cookie</sup>
+### 题目状态
+
+! **必须使用Cookie**
 
 ```javascript
 const $leetcode = new $Leetcode()
@@ -320,7 +328,9 @@ const $leetcode = new $Leetcode()
 | allQuestionsBeta.questionId |    String     | 题目ID       |
 | allQuestionsBeta.status     |    String     | 题目状态     |
 
-### 提交ID <sup>必须使用Cookie、伪造referer</sup>
+### 提交ID
+
+! **必须使用Cookie、伪造referer**
 
 ```javascript
 const $leetcode = new $Leetcode()
@@ -339,7 +349,7 @@ const $leetcode = new $Leetcode()
 })	// must with cookie [LEETCODE_SESSION,x-csrftoken] and referer [https://leetcode-cn.com/problems/${questionSlug}/submissions/]
 ```
 
->  注意，在这个 Api 中，Cookies 必须被携带在 `https://leetcode-cn.com/problems/${questionSlug}/submit`，即访问的 URL  ，否则会触发力扣的 **CSRF** 校验失败。同时，此 Api 还需要伪造 Referer 为 `https://leetcode-cn.com/problems/${questionSlug}/submissions/`，其中字符串模板中的变量 questionSlug 为题目标题，必须为 [题目详情 API](#题目详情-<sup>可以不使用Cookie</sup>) 中 `question.titleSlug` 的可选值
+>  注意，在这个 Api 中，Cookies 必须被携带在 `https://leetcode-cn.com/problems/${questionSlug}/submit`，即访问的 URL  ，否则会触发力扣的 **CSRF** 校验失败。同时，此 Api 还需要伪造 Referer 为 `https://leetcode-cn.com/problems/${questionSlug}/submissions/`，其中字符串模板中的变量 questionSlug 为题目标题，必须为 [题目详情 API](#题目详情) 中 `question.titleSlug` 的可选值
 
 请求数据项：
 
@@ -352,10 +362,10 @@ const $leetcode = new $Leetcode()
 
 参数项：
 
-- `question_id`，题目ID，必须是 [题目详情API](#题目详情-<sup>可以不使用Cookie</sup>) 中 `question.questionId` 的可选值。
-- `lang`，题目语言，必须是 [题目详情API](#题目详情-<sup>可以不使用Cookie</sup>) 中 `question.codeSnippets.langSlug` 的可选值。
+- `question_id`，题目ID，必须是 [题目详情API](#题目详情) 中 `question.questionId` 的可选值。
+- `lang`，题目语言，必须是 [题目详情API](#题目详情) 中 `question.codeSnippets.langSlug` 的可选值。
 - `typed_code`，运行代码，将测试运行的题解代码。
-- `questionSlug`，题目标题，必须是 [题目详情API](#题目详情-<sup>可以不使用Cookie</sup>) 中 `question.titleSlug` 的可选值。
+- `questionSlug`，题目标题，必须是 [题目详情API](#题目详情) 中 `question.titleSlug` 的可选值。
 - <s>`test_mode`</s>，测试模式。
 - <s>`test_judger`</s>，测试判定器。
 
@@ -388,7 +398,7 @@ const $leetcode = new $Leetcode()
 
 参数项：
 
-- `submission_id`，题目ID，必须是 [提交ID API](#提交ID-<sup>必须使用Cookie、伪造referer</sup>) 中 `submission_id` 的可选值。
+- `submission_id`，题目ID，必须是 [提交ID API](#提交ID) 中 `submission_id` 的可选值。
 
 获取到的数据项：
 
