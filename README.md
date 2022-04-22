@@ -368,10 +368,10 @@ Request data:
 
 Parameters:
 
-- `question_id`，Question ID, which must be an optional value of `question.QuestionId` in [Question Details API](#Question Detail).
-- `lang`, Question language, which must be an optional value of `question.codeSnippets.langSlug`in [Question Details API](#Question Detail)
+- `question_id`，Question ID, which must be an optional value of `question.QuestionId` in [Question Details API](#Question-Detail).
+- `lang`, Question language, which must be an optional value of `question.codeSnippets.langSlug`in [Question Details API](#Question-Detail)
 - `typed_code`, Running code, test the problem solving code that runs.
-- `questionSlug`, Question slug, which must be an optional value of `question.titleSlug` in [Question Details API](#Question Detail)
+- `questionSlug`, Question slug, which must be an optional value of `question.titleSlug` in [Question Details API](#Question-Detail)
 - <s>`test_mode`</s>, test mode.
 - <s>`test_judger`</s>, test judger.
 
