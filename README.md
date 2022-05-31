@@ -6,7 +6,7 @@
 
 HttpRequest api for leetcode(zh-cn).
 
-！！！Note that due to a domain name change in Leetcode Chinese, the [Submission ID API](#Submission-ID) has been temporarily redirected (304) and changed to the officially prohibited get method (GET). The [Submission ID API](#Submission-ID) is temporarily deprecated and will be updated later.
+!!!Note that due to a domain name change in Leetcode Chinese, the [Submission ID API](#Submission-ID) has been temporarily redirected (304) and changed to the officially prohibited get method (GET). The [Submission ID API](#Submission-ID) is temporarily deprecated and will be updated later.
 
 ## Directory
 
